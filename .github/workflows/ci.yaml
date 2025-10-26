@@ -1,0 +1,26 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build and test
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: "Linter: Standard"
+        run: bundle exec rake standard
+      - name: Tests
+        run: bundle exec rake test

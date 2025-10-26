@@ -1,0 +1,43 @@
+[env]
+_.path = "bin"
+_.file = ".env"
+
+APP_ENV = "dev"
+
+[tools]
+ruby = "3.4.7"
+
+[tasks.console]
+run = "console"
+alias = "c"
+
+[tasks.install]
+run = "bundle install"
+alias = "i"
+
+[tasks.lint]
+run = "standardrb"
+alias = "l"
+
+[tasks."migrate:dev"]
+run = "sequel -m db/migrations $DATABASE_URL"
+
+[tasks."migrate:test"]
+run = "sequel -m db/migrations $TEST_DATABASE_URL"
+
+[tasks."migrate:all"]
+depends = ["migrate:*"]
+alias = "m"
+
+[tasks.start]
+run = "falcon --verbose serve"
+alias = "s"
+
+[tasks.test]
+env.DATABASE_URL = "{{env.TEST_DATABASE_URL}}"
+run = "rake test"
+alias = "t"
+
+[tasks.update]
+run = "bundle update"
+alias = "u"
