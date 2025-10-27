@@ -7,7 +7,9 @@ module CMS
     tests = "#{__dir__}/**/test_*.rb"
     loader.ignore(tests)
 
-    loader.collapse("#{__dir__}/features/*")
+    loader.ignore("#{__dir__}/router.rb")
+
+    loader.collapse("#{__dir__}/features")
 
     loader.setup
   end

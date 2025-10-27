@@ -15,6 +15,8 @@ class App < Roda
   plugin :sessions, secret: SecureRandom.base64(64)
   plugin :shared_vars
 
+  Dir["#{__dir__}/*/router.rb"].map { require it }
+
   route do |r|
     event_store_client = Infra::EventStoreClient.new
     request_id = request.env["HTTP_X_REQUEST_ID"] || SecureRandom.uuid
@@ -30,6 +32,8 @@ class App < Roda
     end
 
     event_store_client.with_metadata(request_id: request_id, remote_ip: request.env["REMOTE_ADDR"]) do
+      r.hash_branches
+
       r.root do
         "Wieczni Mistrzowie"
       end
