@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 module Infra
+  class DomainEventTransformation < RubyEventStore::Mappers::Transformation::DomainEvent
+    def load(record)
+      EventStoreEvent.new(
+        event_id: record.event_id,
+        data: record.data,
+        metadata: record.metadata.merge(
+          timestamp: record.timestamp,
+          event_type: record.event_type,
+          valid_at: record.valid_at
+        )
+      )
+    end
+  end
+
   class EventStoreClient < RubyEventStore::Client
     def initialize(
       mapper: RubyEventStore::Mappers::BatchMapper.new(
@@ -30,7 +44,8 @@ module Infra
             }.reduce(RubyEventStore::Mappers::Transformation::PreserveTypes.new) do |preserve_types, (klass, options)|
               preserve_types.register(klass, **options)
             end,
-            RubyEventStore::Mappers::Transformation::SymbolizeMetadataKeys.new
+            RubyEventStore::Mappers::Transformation::SymbolizeMetadataKeys.new,
+            to_domain_event: DomainEventTransformation.new
           )
         )
       ),

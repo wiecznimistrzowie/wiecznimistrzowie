@@ -5,7 +5,7 @@ module CMS
     class View < Phlex::HTML
       def view_template
         h1 { "List of People" }
-        a(href: "/cms/people/new") { "Add New Person" }
+        a(href: "/cms/people/add") { "Add New Person" }
       end
     end
   end

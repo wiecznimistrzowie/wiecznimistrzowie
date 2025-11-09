@@ -13,4 +13,8 @@ module CMS
 
     loader.setup
   end
+
+  Dir["#{__dir__}/features/**/setup.rb"].each do |file|
+    require file
+  end
 end

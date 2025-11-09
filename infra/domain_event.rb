@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Infra
-  class InvalidCommand < StandardError
+  class InvalidDomainEvent < StandardError
     attr_reader :error
 
     def initialize(error)
@@ -11,16 +11,13 @@ module Infra
     end
   end
 
-  class Command < Literal::Data
+  class DomainEvent < Literal::Data
     extend Types
-
-    prop :correlation_id, _Uuid, default: -> { SecureRandom.uuid_v4 }
-    prop :current_time, Time, default: -> { Time.now }
 
     def self.new(*, **)
       super
     rescue Literal::TypeError => e
-      raise InvalidCommand.new(e)
+      raise InvalidDomainEvent.new(e)
     end
   end
 end

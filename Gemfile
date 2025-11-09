@@ -2,10 +2,13 @@
 
 source "https://rubygems.org"
 
+gem "concurrent-ruby"
+gem "debug", require: "debug/prelude"
 gem "decide.rb", require: "decider"
+gem "dry-monads"
 gem "falcon"
-gem "irb"
 gem "literal"
+gem "logger"
 gem "pg"
 gem "phlex"
 gem "roda"
@@ -16,7 +19,8 @@ gem "sequel"
 gem "zeitwerk"
 
 group :development, :test do
-  gem "debug", require: "debug/prelude"
+  gem "irb"
+  gem "capybara"
   gem "minitest"
   gem "minitest-junit"
   gem "rake"

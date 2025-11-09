@@ -5,7 +5,7 @@ module CMS::Components
     extend Literal::Properties
 
     prop :title, String, default: "Wieczni Mistrzowie"
-    prop :content, _Class(Phlex::HTML)
+    prop :content, _Union(_Class(Phlex::HTML), _Constraint(Phlex::HTML))
 
     def view_template
       doctype

@@ -3,5 +3,4 @@
 require "bundler/setup"
 Bundler.require(:default)
 
-require_relative "infra/loader"
-require_relative "cms/loader"
+%w[infra cms].each { require_relative "#{it}/loader" }
