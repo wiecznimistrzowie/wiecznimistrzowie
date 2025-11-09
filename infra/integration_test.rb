@@ -17,6 +17,10 @@ module Infra
 
     def event_store = Infra::Config.event_store
 
+    def run(*args, &block)
+      Infra::Config.db.transaction(rollback: :always, auto_savepoint: true) { super }
+    end
+
     def teardown
       Capybara.reset_sessions!
       Capybara.use_default_driver

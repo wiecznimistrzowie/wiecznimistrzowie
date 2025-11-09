@@ -2,11 +2,7 @@
 
 module CMS
   module AddingPerson
-    class View < Phlex::HTML
-      include Components
-
-      extend Literal::Properties
-
+    class View < HtmlView
       prop :form_data, Hash, default: {}.freeze
       prop :csrf_token, String
 

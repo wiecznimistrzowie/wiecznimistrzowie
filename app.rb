@@ -6,7 +6,7 @@ class App < Roda
   extend Forwardable
   include Dry::Monads[:result]
 
-  def_delegators :config, :command_bus, :event_store
+  def_delegators :config, :command_bus, :event_store, :query_bus
 
   opts[:root] = __dir__
   opts[:config] = Infra::Config
@@ -21,7 +21,7 @@ class App < Roda
   plugin :sessions, secret: SecureRandom.base64(64)
   plugin :shared_vars
 
-  require "cms/router"
+  require_relative "cms/router"
 
   def config
     opts[:config]

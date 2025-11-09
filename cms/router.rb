@@ -6,7 +6,9 @@ class App
       r.get true do
         CMS::Components::Layout.new(
           title: "People",
-          content: CMS::ListPeople::View
+          content: CMS::ListPeople::View.new(
+            people: query_bus.call(CMS::ListPeople::ByName.new)
+          )
         ).call
       end
 
