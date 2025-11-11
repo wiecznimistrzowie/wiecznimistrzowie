@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module CMS::Components
-  class Layout < Phlex::HTML
-    extend Literal::Properties
-
+  class Layout < Infra::HtmlComponent
     prop :title, String, default: "Wieczni Mistrzowie"
     prop :content, _Union(_Class(Phlex::HTML), _Constraint(Phlex::HTML))
 

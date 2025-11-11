@@ -16,9 +16,7 @@ class App
         r.get true do
           CMS::Components::Layout.new(
             title: "Add person",
-            content: CMS::AddingPerson::View.new(
-              csrf_token: csrf_token("/cms/people/add")
-            )
+            content: CMS::AddingPerson::View.new(app: self)
           ).call
         end
 
@@ -37,8 +35,8 @@ class App
             CMS::Components::Layout.new(
               title: "Add person",
               content: CMS::AddingPerson::View.new(
-                form_data: r.params,
-                csrf_token: csrf_token("/cms/people/add")
+                app: self,
+                form_data: r.params
               )
             ).call
           end

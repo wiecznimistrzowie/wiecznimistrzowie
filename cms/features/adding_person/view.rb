@@ -4,10 +4,9 @@ module CMS
   module AddingPerson
     class View < HtmlView
       prop :form_data, Hash, default: {}.freeze
-      prop :csrf_token, String
 
       def view_template
-        Form("/cms/people/add", csrf_token: @csrf_token, form_data: @form_data) do |f|
+        Form("/cms/people/add", app: @app, form_data: @form_data) do |f|
           fieldset do
             legend { "Person details" }
 

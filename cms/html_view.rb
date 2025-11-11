@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module CMS
-  class HtmlView < Phlex::HTML
+  class HtmlView < Infra::HtmlComponent
     include Components
-    extend Literal::Properties
   end
 end
