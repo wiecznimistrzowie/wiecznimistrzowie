@@ -12,6 +12,24 @@ class App
         ).call
       end
 
+      r.get String do |person_id|
+        person = query_bus.call(
+          CMS::ShowPerson::ByPersonId.new(person_id)
+        )
+
+        case person
+        in :none
+          "Not found"
+        else
+          CMS::Components::Layout.new(
+            title: person.full_name,
+            content: CMS::ShowPerson::View.new(
+              person: person
+            )
+          ).call
+        end
+      end
+
       r.on "add" do
         r.get true do
           CMS::Components::Layout.new(

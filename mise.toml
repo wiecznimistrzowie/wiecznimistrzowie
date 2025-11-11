@@ -5,7 +5,7 @@ _.file = ".env"
 APP_ENV = "dev"
 
 [tools]
-ruby = "3.4.7"
+ruby = "3.4.5"
 
 [tasks.console]
 run = "console"

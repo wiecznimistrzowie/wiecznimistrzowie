@@ -16,6 +16,7 @@ module CMS
               th { "Date of Birth" }
               th { "Date of Death" }
               th { "Added at" }
+              th {}
             end
           end
           tbody do
@@ -26,6 +27,9 @@ module CMS
                 td { person[:date_of_birth].strftime("%Y-%m-%d") }
                 td { person[:date_of_death].strftime("%Y-%m-%d") }
                 td { person[:created_at].localtime.strftime("%Y-%m-%d %H:%M:%S") }
+                td do
+                  a(href: "/cms/people/#{person[:person_id]}") { "Show" }
+                end
               end
             end
           end
