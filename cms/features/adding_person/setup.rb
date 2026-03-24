@@ -7,10 +7,8 @@ module CMS
         AddPerson,
         Infra::CommandHandler.new(
           decider: Decider,
-          stream: Infra::Stream.new(
-            name: "CMS::Person",
-            tags: %i[person_id]
-          )
+          events: [PersonWasAdded],
+          tags: %i[person_id]
         )
       )
     end

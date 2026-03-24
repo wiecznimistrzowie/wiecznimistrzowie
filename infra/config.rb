@@ -12,7 +12,7 @@ module Infra
   ).new(
     command_bus: CommandBus.new,
     db: DB,
-    event_store: EventStoreClient.new,
+    event_store: EventStore::Client.new,
     logger: Logger.new($stdout),
     query_bus: QueryBus.new
   )
