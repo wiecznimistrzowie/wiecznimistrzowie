@@ -21,11 +21,11 @@ module CMS
           end
           tr do
             td { "Date of birth:" }
-            td { @person.date_of_birth.strftime("%Y-%m-%d") }
+            td { @person.date_of_birth }
           end
           tr do
             td { "Date of death:" }
-            td { @person.date_of_death.strftime("%Y-%m-%d") }
+            td { @person.date_of_death }
           end
         end
       end

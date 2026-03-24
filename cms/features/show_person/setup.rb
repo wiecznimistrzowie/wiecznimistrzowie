@@ -6,10 +6,8 @@ module CMS::ShowPerson
       ByPersonId,
       Infra::EventSourcedQueryHandler.new(
         view: ReadModel,
-        stream: Infra::Stream.new(
-          name: "CMS::Person",
-          tags: %i[person_id]
-        )
+        events: [CMS::AddingPerson::PersonWasAdded],
+        tags: %i[person_id]
       )
     )
   end

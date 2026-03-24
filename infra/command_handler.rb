@@ -63,7 +63,7 @@ module Infra
     end
 
     def deserialize(event)
-      Object.const_get(event.event_type).new(**event.data)
+      Object.const_get(event.event_type).new(**event.data.transform_keys(&:to_sym))
     end
   end
 end
