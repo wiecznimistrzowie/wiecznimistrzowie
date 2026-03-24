@@ -3,7 +3,7 @@
 module CMS
   module ListPeople
     class View < HtmlView
-      prop :people, Sequel::Postgres::Dataset
+      prop :people, Array
 
       def view_template
         h1 { "List of People" }
@@ -15,20 +15,20 @@ module CMS
               th { "First Name" }
               th { "Date of Birth" }
               th { "Date of Death" }
-              th { "Added at" }
+              # th { "Added at" }
               th {}
             end
           end
           tbody do
             @people.each do |person|
               tr do
-                td { person[:last_name] }
-                td { person[:first_name] }
-                td { person[:date_of_birth].strftime("%Y-%m-%d") }
-                td { person[:date_of_death].strftime("%Y-%m-%d") }
-                td { person[:created_at].localtime.strftime("%Y-%m-%d %H:%M:%S") }
+                td { person.last_name }
+                td { person.first_name }
+                td { person.date_of_birth }
+                td { person.date_of_death }
+                # td { person.created_at.localtime.strftime("%Y-%m-%d %H:%M:%S") }
                 td do
-                  a(href: "/cms/people/#{person[:person_id]}") { "Show" }
+                  a(href: "/cms/people/#{person.person_id}") { "Show" }
                 end
               end
             end
