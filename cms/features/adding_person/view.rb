@@ -6,6 +6,7 @@ module CMS
       prop :form_data, Hash, default: {}.freeze
 
       def view_template
+        HtmxTitle { "Add person" }
         Form("/cms/people/add", app: @app, form_data: @form_data) do |f|
           fieldset do
             legend { "Person details" }

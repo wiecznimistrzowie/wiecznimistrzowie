@@ -5,7 +5,7 @@ module CMS::Components
     prop :href, String
 
     def view_template(&)
-      a(href: @href, hx_get: @href, hx_target: "main", &)
+      a(href: @href, hx_get: @href, hx_target: "main", hx_push_url: "true", &)
     end
   end
 end

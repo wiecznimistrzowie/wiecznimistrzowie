@@ -6,6 +6,7 @@ module CMS
       prop :person, Person
 
       def view_template
+        HtmxTitle { @person.full_name }
         table do
           tr do
             td { "UUID" }

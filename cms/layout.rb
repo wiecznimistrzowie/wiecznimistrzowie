@@ -2,7 +2,11 @@
 
 module CMS
   class Layout < HtmlView
-    prop :title, String, default: "Wieczni Mistrzowie"
+    SCRIPTS = {
+      "https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" => "sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
+    }
+
+    prop :current_path, String
 
     def view_template
       doctype
@@ -12,7 +16,7 @@ module CMS
           meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
           meta(name: "description", content: "")
 
-          title { @title }
+          title { "Loading..." }
         end
         body do
           header do
@@ -22,14 +26,16 @@ module CMS
           end
 
           main do
-            p(hx_get: "/cms/people", hx_trigger: "load", hx_target: "main") { "Loading..." }
+            p(hx_get: @current_path, hx_trigger: "load", hx_target: "main") { "Loading..." }
           end
 
           footer do
             p { "Wieczni Mistrzowie (c) 2026" }
           end
 
-          HTMX()
+          SCRIPTS.each do |src, integrity|
+            script(src: src, integrity: integrity, crossorigin: "anonymous")
+          end
         end
       end
     end

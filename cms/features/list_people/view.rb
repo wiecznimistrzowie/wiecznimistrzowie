@@ -6,6 +6,7 @@ module CMS
       prop :people, Array
 
       def view_template
+        HtmxTitle { "People" }
         h1 { "List of People" }
         a(href: "/cms/people/add") { "Add New Person" }
         table do

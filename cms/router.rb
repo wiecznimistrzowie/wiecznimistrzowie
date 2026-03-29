@@ -51,7 +51,7 @@ class App
         end
       end
     else
-      CMS::Layout.new(title: "People").call
+      CMS::Layout.new(current_path: r.path).call
     end
   end
 end
