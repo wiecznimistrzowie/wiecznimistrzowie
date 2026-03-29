@@ -17,6 +17,7 @@ class App < Roda
   plugin :hash_branches
   plugin :path
   plugin :public
+  plugin :request_headers
   plugin :route_csrf
   plugin :sessions, secret: SecureRandom.base64(64)
   plugin :shared_vars

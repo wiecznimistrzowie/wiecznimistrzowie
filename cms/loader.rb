@@ -4,6 +4,10 @@ module CMS
   Loader = Zeitwerk::Loader.new.tap do |loader|
     loader.push_dir(__dir__, namespace: CMS)
 
+    loader.inflector.inflect(
+      "htmx" => "HTMX"
+    )
+
     tests = "#{__dir__}/**/test_*.rb"
     loader.ignore(tests)
 

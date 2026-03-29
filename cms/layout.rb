@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-module CMS::Components
-  class Layout < Infra::HtmlComponent
+module CMS
+  class Layout < HtmlView
     prop :title, String, default: "Wieczni Mistrzowie"
-    prop :content, _Union(_Class(Phlex::HTML), _Constraint(Phlex::HTML))
 
     def view_template
       doctype
@@ -18,15 +17,19 @@ module CMS::Components
         body do
           header do
             nav do
-              a(href: "/cms/people") { "People" }
+              Link(href: "/cms/people") { "People" }
             end
           end
 
-          main { render @content }
+          main do
+            p(hx_get: "/cms/people", hx_trigger: "load", hx_target: "main") { "Loading..." }
+          end
 
           footer do
-            p { "Wieczni Mistrzowie (c) 2025" }
+            p { "Wieczni Mistrzowie (c) 2026" }
           end
+
+          HTMX()
         end
       end
     end
