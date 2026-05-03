@@ -1,0 +1,4 @@
+[daemons.server]
+run = "mise run start"
+watch = ["cms/**/*.rb", "infra/**/*", "*.rb"]
+ready_cmd = "curl -ksf https://localhost:9292/health"

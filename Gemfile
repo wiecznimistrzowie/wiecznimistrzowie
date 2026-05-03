@@ -4,22 +4,19 @@ source "https://rubygems.org"
 
 gem "concurrent-ruby"
 gem "debug", require: "debug/prelude"
-gem "decide.rb", require: "decider"
+gem "decider", "~> 0.9"
 gem "dry-monads"
 gem "falcon"
 gem "literal"
 gem "logger"
+gem "pg"
 gem "phlex"
 gem "roda"
 gem "ruby_event_store"
 gem "ruby_event_store-browser"
 gem "ruby_event_store-sequel"
+gem "sequel"
 gem "zeitwerk"
-
-# group :preload do
-  gem "pg"
-  gem "sequel"
-# end
 
 group :development, :test do
   gem "irb"
@@ -29,7 +26,3 @@ group :development, :test do
   gem "rake"
   gem "standard"
 end
-
-gem "localhost", "~> 1.7"
-
-gem "bake", "~> 0.24.1"

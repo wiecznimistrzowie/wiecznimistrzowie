@@ -24,9 +24,7 @@ class App < Roda
 
   require_relative "cms/router"
 
-  def config
-    opts[:config]
-  end
+  def config = opts[:config]
 
   route do |r|
     request_id = request.env["HTTP_X_REQUEST_ID"] || SecureRandom.uuid
@@ -34,6 +32,10 @@ class App < Roda
     r.public
 
     check_csrf!
+
+    r.get "health" do
+      "OK"
+    end
 
     r.on "res" do
       require "ruby_event_store/browser/app"

@@ -7,7 +7,7 @@ module CMS::Components
     prop :errors, Hash, default: {}.freeze
 
     def view_template
-      form(action: @action, method: "POST") do
+      form(action: @action, hx_post: @action, method: "POST") do
         input(type: :hidden, name: "_csrf", value: csrf_token(@action))
 
         yield
