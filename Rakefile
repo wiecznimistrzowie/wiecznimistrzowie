@@ -2,6 +2,7 @@
 
 require "minitest/test_task"
 require "standard/rake"
+require "en57/tasks"
 
 Minitest::TestTask.create :test do |t|
   t.test_prelude = %(require_relative "boot")

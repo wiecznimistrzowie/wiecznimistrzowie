@@ -22,5 +22,9 @@ module Infra
     rescue Literal::TypeError => e
       raise InvalidCommand.new(e)
     end
+
+    def map_tags(tags)
+      tags.map { "#{it}:#{public_send(it)}" }
+    end
   end
 end

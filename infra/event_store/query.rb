@@ -3,6 +3,8 @@
 module Infra
   module EventStore
     class Query
+      attr_reader :event_types, :tags
+
       # Creates a new query that filters events by type and tags.
       #
       # @param event_types [Array<Symbol>] The event types to filter by.

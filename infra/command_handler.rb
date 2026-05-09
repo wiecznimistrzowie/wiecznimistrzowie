@@ -12,58 +12,57 @@ module Infra
     end
 
     def call(command)
-      query = build_query(command, @event_types, @tags)
+      query = @event_store
+        .read
+        .of_type(*@event_types)
+        .with_tag(*command.map_tags(@tags))
 
       events, max_sequence = read_stream(query)
 
       state = events.reduce(@decider.initial_state, &@decider.evolve)
       new_events = @decider.decide(command, state)
 
-      result = append_to_stream(new_events, query, max_sequence)
+      append_to_stream(new_events, query, max_sequence)
 
-      if result.any?
-        Success(new_events)
-      else
-        Failure(:wrong_expected_version)
-      end
+      Success(new_events)
+    rescue En57::AppendConditionViolated
+      Failure(:race_condition_detected)
     end
 
     private
 
     def build_query(command, event_types, tags)
-      EventStore::Query.new(event_types) do |query|
+      DCB::Query.new(event_types) do |query|
         tags.each { query.with(it, command.send(it)) }
       end
     end
 
     def read_stream(query)
-      events = @event_store.read(query: query)
+      events = query.each_with_position.to_a
 
-      [events.map(&method(:deserialize)), events.empty? ? 0 : events.last.sequence]
+      [
+        events.map(&:first).map(&method(:deserialize)),
+        events.empty? ? 0 : events.last.last
+      ]
     end
 
     def append_to_stream(events, query, max_sequence)
       @event_store.append(
         events.map(&method(:serialize)),
-        condition: EventStore::AppendCondition.new(
-          fail_if_events_match: query,
-          after: max_sequence
-        )
+        fail_if: query.after(max_sequence)
       )
     end
 
     def serialize(event)
-      EventStore::Event.new(
-        sequence: -1,
-        event_id: SecureRandom.uuid_v7,
-        event_type: event.class.name,
+      En57::Event.new(
+        type: event.class.name,
         data: event.to_h,
-        metadata: {}
+        tags: event.to_tags
       )
     end
 
     def deserialize(event)
-      Object.const_get(event.event_type).new(**event.data.transform_keys(&:to_sym))
+      Object.const_get(event.type).new(**event.data.transform_keys(&:to_sym))
     end
   end
 end

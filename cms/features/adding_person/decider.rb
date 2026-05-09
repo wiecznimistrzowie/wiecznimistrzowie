@@ -5,7 +5,7 @@ module CMS
     Decider = Decider.define do
       initial_state :none
 
-      decide AddPerson do
+      decide AddPerson, :none do
         emit PersonWasAdded.new(
           person_id: command.person_id,
           first_name: command.first_name,
@@ -13,6 +13,10 @@ module CMS
           date_of_birth: command.date_of_birth,
           date_of_death: command.date_of_death
         )
+      end
+
+      evolve PersonWasAdded do
+        :added
       end
     end
   end
