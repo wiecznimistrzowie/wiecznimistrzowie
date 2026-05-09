@@ -10,17 +10,18 @@ module Infra
     end
 
     def call(query)
-      event_store_query = EventStore::Query.new(*@event_types) do |q|
-        @tags.each { q.with(it, query.send(it)) }
-      end
-
-      @event_store.read(query: event_store_query).reduce(@view.initial_state, &@view.evolve)
+      @event_store
+        .read
+        .of_type(*@event_types)
+        .with_tag(*@tags.map { "#{it}:#{query.public_send(it)}" })
+        .each
+        .reduce(@view.initial_state, &@view.evolve)
     end
 
     private
 
     def deserialize(event)
-      Object.const_get(event.event_type).new(**event.data.transform_keys(&:to_sym))
+      Object.const_get(event.type).new(**event.data)
     end
   end
 end

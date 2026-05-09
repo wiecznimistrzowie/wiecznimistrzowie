@@ -14,7 +14,7 @@ module CMS
       Infra::Config.query_bus.register(
         ByName,
         Infra::EventSourcedQueryHandler.new(
-          view: ReadModel,
+          view: ReadModel.many,
           events: [CMS::AddingPerson::PersonWasAdded]
         )
       )

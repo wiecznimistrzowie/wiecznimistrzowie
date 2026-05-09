@@ -27,8 +27,6 @@ class App < Roda
   def config = opts[:config]
 
   route do |r|
-    request_id = request.env["HTTP_X_REQUEST_ID"] || SecureRandom.uuid
-
     r.public
 
     check_csrf!
@@ -37,18 +35,10 @@ class App < Roda
       "OK"
     end
 
-    r.on "res" do
-      require "ruby_event_store/browser/app"
+    r.hash_branches
 
-      r.run RubyEventStore::Browser::App.for(event_store_locator: -> { event_store })
-    end
-
-    event_store.with_metadata(request_id: request_id, remote_ip: request.env["REMOTE_ADDR"]) do
-      r.hash_branches
-
-      r.root do
-        "Wieczni Mistrzowie"
-      end
+    r.root do
+      "Wieczni Mistrzowie"
     end
   end
 end

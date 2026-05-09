@@ -8,10 +8,10 @@ module Infra
         @view = view
       end
 
-      def call(event)
+      def call(event:, position:)
         state = @state_repository.fetch_state(event) || @view.initial_state
         new_state = @view.evolve(state, event)
-        @state_repository.save(new_state)
+        @state_repository.save(new_state, position)
       end
     end
   end

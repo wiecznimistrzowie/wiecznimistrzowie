@@ -15,7 +15,7 @@ module Infra
       query = @event_store
         .read
         .of_type(*@event_types)
-        .with_tag(*command.map_tags(@tags))
+        .with_tag(*@tags.map { "#{it}:#{command.public_send(it)}" })
 
       events, max_sequence = read_stream(query)
 
@@ -30,12 +30,6 @@ module Infra
     end
 
     private
-
-    def build_query(command, event_types, tags)
-      DCB::Query.new(event_types) do |query|
-        tags.each { query.with(it, command.send(it)) }
-      end
-    end
 
     def read_stream(query)
       events = query.each_with_position.to_a
@@ -57,12 +51,12 @@ module Infra
       En57::Event.new(
         type: event.class.name,
         data: event.to_h,
-        tags: event.to_tags
+        tags: event.class.literal_properties.map { "#{it.name}:#{event.public_send(it.name)}" }
       )
     end
 
     def deserialize(event)
-      Object.const_get(event.type).new(**event.data.transform_keys(&:to_sym))
+      Object.const_get(event.type).new(**event.data)
     end
   end
 end

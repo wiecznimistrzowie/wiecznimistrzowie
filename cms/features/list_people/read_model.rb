@@ -3,14 +3,10 @@
 module CMS
   module ListPeople
     ReadModel = Decider::View.define do
-      initial_state :empty
-      
-      evolve :empty, AddingPerson::PersonWasAdded do
-        [Person.new(**event.to_h)]
-      end
+      initial_state :none
 
       evolve AddingPerson::PersonWasAdded do
-        state.push(Person.new(**event.to_h))
+        Person.new(**event.to_h)
       end
     end
   end
