@@ -4,6 +4,7 @@
   up do
     create_table :cms_people do
       primary_key :id, type: :Bignum, null: false
+      column :last_position, :Bignum, null: false
 
       column :person_id, :uuid, null: false
       column :first_name, String, null: false
