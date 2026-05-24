@@ -40,7 +40,7 @@ bundle exec falcon serve
 ### Layers
 
 - `infra/` — shared kernel: event store, buses, base classes, test helpers. All under the `Infra` namespace.
-- `cms/` — domain. All under the `CMS` namespace. Features live in `cms/features/<feature_name>/`.
+- `cms/` — domain. All under the `CMS` namespace. Features live in `cms/slices/<feature_name>/`.
 
 Both layers use Zeitwerk for autoloading via their respective `loader.rb` files.
 

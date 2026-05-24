@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class App
-  slices = Dir["#{__dir__}/features/**/endpoint.rb"].map { |file|
+  slices = Dir["#{__dir__}/slices/**/endpoint.rb"].map { |file|
     require file
 
     Pathname.new(file).dirname.basename.to_s

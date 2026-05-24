@@ -9,7 +9,6 @@ class App < Roda
   def_delegators :config, :command_bus, :event_store, :query_bus
 
   opts[:root] = __dir__
-  opts[:config] = Infra::Config
 
   plugin :common_logger
   plugin :flash
