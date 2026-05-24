@@ -21,7 +21,10 @@ class App
         case command_bus.call(command)
         in Success[CMS::PersonWasAdded]
           response.status = 202
-          response["HX-Location"] = "/cms/people/#{person_id}"
+          response["HX-Location"] = {
+            path: "/cms/people/#{person_id}",
+            target: "main"
+          }.to_json
         in Failure(:wrong_expected_version)
           CMS::AddingPerson::View.new(
             app: self,

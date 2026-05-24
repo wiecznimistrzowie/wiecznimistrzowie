@@ -24,7 +24,7 @@ module Infra
 
     def setup
       DatabaseCleaner.strategy = :truncation
-      Capybara.current_driver = :selenium
+      Capybara.current_driver = :selenium_headless
     end
 
     def teardown
