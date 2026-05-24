@@ -9,7 +9,7 @@ module CMS
 
       def call(event)
         case event
-        in {event_type: "CMS::AddingPerson::PersonWasAdded", data:, metadata:}
+        in {event_type: "CMS::PersonWasAdded", data:, metadata:}
           @db[:cms_people].insert(
             **data.slice(:person_id, :first_name, :last_name, :date_of_birth, :date_of_death),
             created_at: metadata[:timestamp],

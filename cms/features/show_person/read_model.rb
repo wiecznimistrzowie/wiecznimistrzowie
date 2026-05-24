@@ -5,7 +5,7 @@ module CMS
     ReadModel = Decider::View.define do
       initial_state :none
 
-      evolve AddingPerson::PersonWasAdded do
+      evolve PersonWasAdded do
         Person.new(**event.to_h)
       end
     end

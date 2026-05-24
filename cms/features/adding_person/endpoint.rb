@@ -16,7 +16,7 @@ class App
         )
 
         case command_bus.call(command)
-        in Success[CMS::AddingPerson::PersonWasAdded]
+        in Success[CMS::PersonWasAdded]
           r.redirect "/cms/people"
         in Failure(:wrong_expected_version)
           CMS::AddingPerson::View.new(

@@ -11,6 +11,7 @@ module CMS
     loader.ignore("#{__dir__}/**/endpoint.rb")
 
     loader.collapse("#{__dir__}/features")
+    loader.collapse("#{__dir__}/events")
 
     loader.setup
   end

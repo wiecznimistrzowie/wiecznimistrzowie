@@ -8,7 +8,7 @@ module CMS
           state_repository: StateRepository.new,
           view: ReadModel
         ),
-        event_types: [AddingPerson::PersonWasAdded]
+        event_types: [PersonWasAdded]
       )
 
       Infra::Config.query_bus.register(
