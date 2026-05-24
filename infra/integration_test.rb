@@ -3,6 +3,7 @@
 require_relative "../app"
 require "capybara"
 require "capybara/minitest"
+require "database_cleaner/sequel"
 
 app = App
 app.opts[:config] = Infra::Config
@@ -18,7 +19,12 @@ module Infra
     def event_store = Infra::Config.event_store
 
     def run(*args, &block)
-      Infra::Config.db.transaction(rollback: :always, auto_savepoint: true) { super }
+      DatabaseCleaner.cleaning { super }
+    end
+
+    def setup
+      DatabaseCleaner.strategy = :truncation
+      Capybara.current_driver = :selenium
     end
 
     def teardown

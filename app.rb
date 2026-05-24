@@ -6,7 +6,7 @@ class App < Roda
   extend Forwardable
   include Dry::Monads[:result]
 
-  def_delegators :config, :command_bus, :event_store, :query_bus
+  def_delegators :config, :command_bus, :event_store, :query_bus, :logger
 
   opts[:root] = __dir__
 

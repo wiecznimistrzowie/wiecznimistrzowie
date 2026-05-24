@@ -8,7 +8,10 @@ class App
       end
 
       r.post true do
+        person_id = SecureRandom.uuid_v7
+
         command = CMS::AddingPerson::AddPerson.new(
+          person_id: person_id,
           first_name: r.params["first_name"],
           last_name: r.params["last_name"],
           date_of_birth: r.params["date_of_birth"],
@@ -17,7 +20,8 @@ class App
 
         case command_bus.call(command)
         in Success[CMS::PersonWasAdded]
-          r.redirect "/cms/people"
+          response.status = 202
+          response["HX-Location"] = "/cms/people/#{person_id}"
         in Failure(:wrong_expected_version)
           CMS::AddingPerson::View.new(
             app: self,

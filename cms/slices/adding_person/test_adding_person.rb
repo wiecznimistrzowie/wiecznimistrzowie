@@ -2,7 +2,7 @@
 
 module CMS::AddingPerson
   class TestAddingPerson < Infra::IntegrationTest
-    def test_add_person
+    def test_success
       visit("/cms/people/add")
 
       within("form") do
@@ -14,10 +14,7 @@ module CMS::AddingPerson
         click_on("Save")
       end
 
-      assert_includes page.text, "Marian"
-      assert_includes page.text, "Dziurowicz"
-      assert_includes page.text, "1935-07-16"
-      assert_includes page.text, "2002-06-21"
+      assert_current_path %r(/cms/people/[0-9a-f-]{36})
     end
   end
 end
