@@ -16,14 +16,21 @@ module Infra
     include Capybara::DSL
     include Capybara::Minitest::Assertions
 
-    def event_store = Infra::Config.event_store
+    def event_store = Config.event_store
+    def db = Config.db
 
     def run(*args, &block)
       DatabaseCleaner.cleaning { super }
     end
 
     def setup
-      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner[:sequel].db = Sequel.connect(db.uri, search_path: "public")
+      DatabaseCleaner[:sequel].strategy = :truncation, {except: %w[en57_schema_info]}
+
+      DatabaseCleaner[:sequel, db: Sequel.connect(db.uri, search_path: "en57")].tap do |cleaner|
+        cleaner.strategy = :truncation
+      end
+
       Capybara.current_driver = :selenium_headless
     end
 
