@@ -24,7 +24,6 @@ group :development, :test do
   gem "capybara"
   gem "database_cleaner-sequel"
   gem "minitest"
-  gem "minitest-junit"
   gem "puma"
   gem "rake"
   gem "selenium-webdriver"
