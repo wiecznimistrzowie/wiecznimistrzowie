@@ -6,7 +6,7 @@ class App
       person = query_bus.call(
         CMS::ShowPerson::ByPersonId.new(person_id)
       )
-  
+
       case person
       in :none
         "Not found"

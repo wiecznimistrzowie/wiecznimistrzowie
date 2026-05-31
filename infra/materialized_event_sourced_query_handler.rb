@@ -20,14 +20,13 @@ module Infra
     end
 
     private
-    
+
     def materialize_collection(query)
       state = @db[@table].all.each_with_object({}) { |record, acc| acc[record["id"]] = record }
       event_store_query = EventStore::Query.new(*@event_types)
       @event_store.read(query: event_store_query).reduce(state, &@view.evolve)
-      
     end
-      
+
     def materialize_record(query)
       state = @db[@table].all.each_with_object({}) { |record, acc| acc[record["id"]] = record }
 

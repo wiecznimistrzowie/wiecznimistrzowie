@@ -6,4 +6,3 @@ module Infra
   DB.extension(:pg_json, :pg_array)
   Sequel.extension(:pg_json_ops, :pg_array_ops)
 end
-

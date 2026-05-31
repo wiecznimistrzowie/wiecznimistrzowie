@@ -14,7 +14,7 @@ module Infra
         @materialized_view.call(event: deserialize(event), position: position)
       end
     end
-    
+
     def deserialize(event)
       Object.const_get(event.type).new(**event.data)
     end
