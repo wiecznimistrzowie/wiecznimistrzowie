@@ -6,7 +6,10 @@ require "en57/tasks"
 
 Minitest::TestTask.create :test do |t|
   t.test_prelude = %(require_relative "boot")
-  t.test_globs = ["*/**/test_*.rb"]
+  t.test_globs = [
+    "cms/**/test_*.rb",
+    "infra/**/test_*.rb"
+  ]
 end
 
 task default: %i[test standard]
