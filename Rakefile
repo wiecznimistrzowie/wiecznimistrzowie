@@ -5,6 +5,7 @@ require "standard/rake"
 require "en57/tasks"
 
 Minitest::TestTask.create :test do |t|
+  t.warning = false
   t.test_prelude = %(require_relative "boot")
   t.test_globs = [
     "cms/**/test_*.rb",

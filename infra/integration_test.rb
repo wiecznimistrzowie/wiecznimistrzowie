@@ -16,22 +16,22 @@ module Infra
     include Capybara::DSL
     include Capybara::Minitest::Assertions
 
+    PUBLIC_CONN = Sequel.connect(Config.db.uri, search_path: "public")
+    EN57_CONN = Sequel.connect(Config.db.uri, search_path: "en57")
+
     def event_store = Config.event_store
-    def db = Config.db
 
     def run(*args, &block)
-      DatabaseCleaner.cleaning { super }
-    end
-
-    def setup
-      DatabaseCleaner[:sequel].db = Sequel.connect(db.uri, search_path: "public")
+      DatabaseCleaner[:sequel].db = PUBLIC_CONN
       DatabaseCleaner[:sequel].strategy = :truncation, {except: %w[en57_schema_info]}
 
-      DatabaseCleaner[:sequel, db: Sequel.connect(db.uri, search_path: "en57")].tap do |cleaner|
+      DatabaseCleaner[:sequel, db: EN57_CONN].tap do |cleaner|
         cleaner.strategy = :truncation
       end
 
       Capybara.current_driver = :selenium_headless
+
+      DatabaseCleaner.cleaning { super }
     end
 
     def teardown
