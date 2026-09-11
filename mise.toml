@@ -5,7 +5,13 @@ _.file = ".env"
 APP_ENV = "dev"
 
 [tools]
-ruby = "4.0.5"
+ruby = "4.0.6"
+
+[task_templates."env:test"]
+env.DATABASE_POSTGRES_URL = "{{env.TEST_DATABASE_POSTGRES_URL}}"
+env.DATABASE_RODAUTH_URL = "{{env.TEST_DATABASE_RODAUTH_URL}}"
+env.DATABASE_RODAUTH_PASSWORD_URL = "{{env.TEST_DATABASE_RODAUTH_PASSWORD_URL}}"
+env.DATABASE_WM_URL = "{{env.TEST_DATABASE_WM_URL}}"
 
 [tasks.console]
 run = "console"
@@ -20,10 +26,16 @@ run = "standardrb"
 alias = "l"
 
 [tasks."migrate:dev"]
-run = "sequel -m db/migrations $DATABASE_URL"
+run = [
+  "sequel -m db/migrations/postgres $DATABASE_POSTGRES_URL",
+  "sequel -m db/migrations/rodauth $DATABASE_RODAUTH_URL",
+  "sequel -m db/migrations/rodauth_password $DATABASE_RODAUTH_PASSWORD_URL",
+  "sequel -m db/migrations/wm $DATABASE_WM_URL"
+]
 
 [tasks."migrate:test"]
-run = "sequel -m db/migrations $TEST_DATABASE_URL"
+extends = "env:test"
+depends = ["migrate:dev"]
 
 [tasks."migrate:all"]
 depends = ["migrate:*"]
@@ -34,7 +46,7 @@ run = "falcon --verbose serve --preload boot.rb"
 alias = "s"
 
 [tasks.test]
-env.DATABASE_URL = "{{env.TEST_DATABASE_URL}}"
+extends = "env:test"
 run = "rake test"
 alias = "t"
 

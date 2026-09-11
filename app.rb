@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "boot"
+require "forwardable"
 
 class App < Roda
   extend Forwardable
@@ -17,6 +18,15 @@ class App < Roda
   plugin :path
   plugin :public
   plugin :request_headers
+  plugin :rodauth do
+    db Sequel.connect(ENV.delete("DATABASE_RODAUTH_URL"))
+    enable :login, :logout
+    accounts_table Sequel[:rodauth][:accounts]
+    function_name do |name|
+      "rodauth_password.#{name}"
+    end
+    password_hash_table Sequel[:rodauth_password][:account_password_hashes]
+  end
   plugin :route_csrf
   plugin :sessions, secret: SecureRandom.base64(64)
   plugin :shared_vars
@@ -26,6 +36,7 @@ class App < Roda
   def config = opts[:config]
 
   route do |r|
+    r.rodauth
     r.public
 
     check_csrf!

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "logger"
+require "en57/sequel_adapter"
 
 module Infra
   Config = Data.define(
