@@ -14,8 +14,14 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     name: Build and test
+    timeout-minutes: 5
     env:
-      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/wiecznimistrzowie
+      PGHOST: 127.0.0.1
+      PGPASSWORD: password
+      DATABASE_POSTGRES_URL: postgres://postgres:password@127.0.0.1:5432/wiecznimistrzowie
+      DATABASE_WM_URL: postgres://wm:wm@127.0.0.1:5432/wiecznimistrzowie
+      DATABASE_RODAUTH_URL: postgres://rodauth:rodauth@127.0.0.1:5432/wiecznimistrzowie
+      DATABASE_RODAUTH_PASSWORD_URL: postgres://rodauth_password:rodauth_password@127.0.0.1:5432/wiecznimistrzowie
 
     services:
       postgres:
@@ -37,10 +43,23 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Create DB users
+        run: |
+          psql -U postgres -v ON_ERROR_STOP=1 <<'SQL'
+            CREATE ROLE wm LOGIN PASSWORD 'wm';
+            CREATE ROLE rodauth LOGIN PASSWORD 'rodauth';
+            CREATE ROLE rodauth_password LOGIN PASSWORD 'rodauth_password';
+          SQL
       - name: Migrate database
-        run: bin/sequel -m db/migrations $DATABASE_URL
+        run: |
+          bin/sequel -m db/migrations/postgres $DATABASE_POSTGRES_URL
+          bin/sequel -m db/migrations/rodauth $DATABASE_RODAUTH_URL
+          bin/sequel -m db/migrations/rodauth_password $DATABASE_RODAUTH_PASSWORD_URL
+          bin/sequel -m db/migrations/wm $DATABASE_WM_URL
       - name: Migrate en57
         run: bundle exec rake en57:migrate
+        env:
+          DATABASE_URL: ${{ env.DATABASE_WM_URL }}
       - name: "Linter: Standard"
         run: bundle exec rake standard
       - name: Tests
