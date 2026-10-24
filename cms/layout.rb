@@ -3,7 +3,7 @@
 module CMS
   class Layout < HtmlView
     SCRIPTS = {
-      "https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" => "sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
+      "https://cdn.jsdelivr.net/npm/htmx.org@4.0.0/dist/htmx.min.js" => "sha384-BvJpBiO8Kh31EqtJe5DRIeWrHWnCGkwytKs9NKFi86Hhw96dEqdEMzZDeK9iEGTc"
     }
 
     prop :current_path, String

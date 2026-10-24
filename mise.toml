@@ -25,17 +25,24 @@ alias = "i"
 run = "standardrb"
 alias = "l"
 
-[tasks."migrate:dev"]
+[tasks."db:migrate"]
 run = [
   "sequel -m db/migrations/postgres $DATABASE_POSTGRES_URL",
   "sequel -m db/migrations/rodauth $DATABASE_RODAUTH_URL",
   "sequel -m db/migrations/rodauth_password $DATABASE_RODAUTH_PASSWORD_URL",
-  "sequel -m db/migrations/wm $DATABASE_WM_URL"
+  "sequel -m db/migrations/wm $DATABASE_WM_URL",
+  "rake en57:migrate",
 ]
+
+[tasks."migrate:dev"]
+env.DATABASE_URL = "{{env.DATABASE_WM_URL}}"
+run = { task = "db:migrate" }
 
 [tasks."migrate:test"]
 extends = "env:test"
-depends = ["migrate:dev"]
+env.DATABASE_URL = "{{env.TEST_DATABASE_WM_URL}}"
+
+run = { task = "db:migrate" }
 
 [tasks."migrate:all"]
 depends = ["migrate:*"]
