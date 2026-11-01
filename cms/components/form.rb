@@ -3,11 +3,12 @@
 module CMS::Components
   class Form < Infra::HtmlComponent
     prop :action, String, :positional
+    prop :testid, String
     prop :form_data, Hash, default: {}.freeze
     prop :errors, Hash, default: {}.freeze
 
     def view_template
-      form(action: @action, hx_post: @action, method: "POST") do
+      form(action: @action, hx_post: @action, method: "POST", data_testid: @testid) do
         input(type: :hidden, name: "_csrf", value: csrf_token(@action))
 
         yield

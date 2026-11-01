@@ -9,7 +9,7 @@ module CMS::AddingPerson
 
       visit("/cms/people/add")
 
-      within("form") do
+      within("[data-testid=adding-person]") do
         fill_in("first_name", with: "Marian")
         fill_in("last_name", with: "Dziurowicz")
         fill_in("date_of_birth", with: "1935-07-16")
