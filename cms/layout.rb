@@ -22,7 +22,8 @@ module CMS
         body do
           header do
             nav do
-              Link(href: "/cms/people") { "People" }
+              Link(href: "/cms/people") { "Ludzie" }
+              Link(href: "/cms/localities") { "Miejscowości" }
               form(action: "/logout", method: "POST") do
                 input(type: :hidden, name: "_csrf", value: csrf_token("/logout"))
                 input(type: :submit, value: "Logout (#{@account.email})")
