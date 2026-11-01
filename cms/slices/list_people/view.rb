@@ -9,7 +9,7 @@ module CMS
         HtmxTitle { "People" }
         h1 { "List of People" }
         a(href: "/cms/people/add") { "Add New Person" }
-        table do
+        table(data_testid: "people-list") do
           thead do
             tr do
               th { "Last Name" }
@@ -23,7 +23,7 @@ module CMS
           tbody do
             @people.each do |person|
               tr do
-                td { person.last_name }
+                td(data_testid: "person-last-name") { person.last_name }
                 td { person.first_name }
                 td { person.date_of_birth }
                 td { person.date_of_death }

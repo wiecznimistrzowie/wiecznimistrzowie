@@ -21,14 +21,21 @@ class App < Roda
   plugin :rodauth do
     db Sequel.connect(ENV.delete("DATABASE_RODAUTH_URL"))
     enable :login, :logout
+    enable :internal_request, :create_account if ENV["RACK_ENV"] == "test"
     accounts_table Sequel[:rodauth][:accounts]
+    already_logged_in do
+      redirect "/"
+    end
     function_name do |name|
       "rodauth_password.#{name}"
     end
     password_hash_table Sequel[:rodauth_password][:account_password_hashes]
+    login_label "Email"
+    login_param "email"
+    default_redirect "/cms"
   end
   plugin :route_csrf
-  plugin :sessions, secret: SecureRandom.base64(64)
+  plugin :sessions, secret: ENV.delete("SESSION_SECRET") || SecureRandom.base64(64)
   plugin :shared_vars
 
   require_relative "cms/router"

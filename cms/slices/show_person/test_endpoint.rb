@@ -3,13 +3,19 @@
 module CMS
   module ShowPerson
     class TestEndpoint < Infra::IntegrationTest
+      include TestHelpers::Authentication
+
       def test_not_found
+        sign_in_admin
+
         visit("/cms/people/#{SecureRandom.uuid_v7}")
 
         assert_text "Not found"
       end
 
       def test_success
+        sign_in_admin
+
         person_id = SecureRandom.uuid_v7
         event_store.append(
           [

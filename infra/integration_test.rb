@@ -9,6 +9,10 @@ app = App
 app.opts[:config] = Infra::Config
 app.freeze
 
+Capybara.configure do |config|
+  config.test_id = "data-testid"
+end
+
 Capybara.app = app
 
 module Infra
@@ -16,7 +20,7 @@ module Infra
     include Capybara::DSL
     include Capybara::Minitest::Assertions
 
-    PUBLIC_CONN = Sequel.connect(Config.db.uri, search_path: "public")
+    PUBLIC_CONN = Sequel.connect(Config.db.uri, search_path: "public,wm")
     EN57_CONN = Sequel.connect(Config.db.uri, search_path: "en57")
 
     def event_store = Config.event_store

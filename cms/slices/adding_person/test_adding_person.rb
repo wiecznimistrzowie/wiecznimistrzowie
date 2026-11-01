@@ -2,7 +2,11 @@
 
 module CMS::AddingPerson
   class TestAddingPerson < Infra::IntegrationTest
+    include CMS::TestHelpers::Authentication
+
     def test_success
+      sign_in_admin
+
       visit("/cms/people/add")
 
       within("form") do

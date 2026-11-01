@@ -7,6 +7,7 @@ module CMS
     }
 
     prop :current_path, String
+    prop :account, Account
 
     def view_template
       doctype
@@ -22,6 +23,10 @@ module CMS
           header do
             nav do
               Link(href: "/cms/people") { "People" }
+              form(action: "/logout", method: "POST") do
+                input(type: :hidden, name: "_csrf", value: csrf_token("/logout"))
+                input(type: :submit, value: "Logout (#{@account.email})")
+              end
             end
           end
 
