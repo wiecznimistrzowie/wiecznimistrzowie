@@ -29,6 +29,12 @@ module CMS
             td { @person.date_of_death }
           end
         end
+        section(id: "add-link") do
+          p(hx_get: "/cms/people/#{@person.person_id}/links/add", hx_trigger: "load", hx_target: "#add-link") {}
+        end
+        section(id: "person-links") do
+          p(hx_get: "/cms/people/#{@person.person_id}/links", hx_trigger: "load", hx_target: "#person-links") { "Loading..." }
+        end
       end
     end
   end
