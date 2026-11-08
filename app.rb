@@ -3,12 +3,6 @@
 require_relative "boot"
 require "forwardable"
 
-Account = Data.define(:id, :email) do
-  def self.from_rodauth(account)
-    new(id: account[:id], email: account[:email])
-  end
-end
-
 class App < Roda
   extend Forwardable
   include Dry::Monads[:result]
@@ -61,9 +55,15 @@ class App < Roda
     r.on "admin" do
       rodauth.require_authentication
 
-      r.hash_branches(:admin)
+      if r.headers["HX-Request"]
+        r.hash_branches(:admin)
 
-      "admin"
+        "admin"
+      else
+        account = Admin::Account.from_rodauth(rodauth.account!)
+
+        Admin::Layout.new(app: self, account: account, current_path: r.path).call
+      end
     end
 
     r.hash_branches

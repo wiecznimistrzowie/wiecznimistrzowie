@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module CMS
-  class Layout < HtmlView
+module Admin
+  class Layout < Infra::HtmlComponent
     SCRIPTS = {
       "https://cdn.jsdelivr.net/npm/htmx.org@4.0.0/dist/htmx.min.js" => "sha384-BvJpBiO8Kh31EqtJe5DRIeWrHWnCGkwytKs9NKFi86Hhw96dEqdEMzZDeK9iEGTc"
     }
@@ -22,8 +22,8 @@ module CMS
         body do
           header do
             nav do
-              Link(href: "/cms/people") { "Ludzie" }
-              Link(href: "/cms/localities") { "Miejscowości" }
+              link("/admin/cms/people") { "Ludzie" }
+              link("/admin/cms/localities") { "Miejscowości" }
               form(action: "/logout", method: "POST") do
                 input(type: :hidden, name: "_csrf", value: csrf_token("/logout"))
                 input(type: :submit, value: "Logout (#{@account.email})")
@@ -44,6 +44,12 @@ module CMS
           end
         end
       end
+    end
+
+    private
+
+    def link(url, &)
+      a(href: url, hx_get: url, hx_target: "main", hx_push_url: "true", &)
     end
   end
 end

@@ -8,14 +8,8 @@ class App
   }
 
   hash_branch :admin, "cms" do |r|
-    if r.headers["HX-Request"]
-      slices.each { r.route(it) }
+    slices.each { r.route(it) }
 
-      "cms"
-    else
-      account = Account.from_rodauth(rodauth.account!)
-
-      CMS::Layout.new(app: self, account: account, current_path: r.path).call
-    end
+    "cms"
   end
 end
