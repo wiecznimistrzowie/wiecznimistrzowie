@@ -24,7 +24,7 @@ class App < Roda
     enable :internal_request, :create_account if ENV["RACK_ENV"] == "test"
     accounts_table Sequel[:rodauth][:accounts]
     already_logged_in do
-      redirect "/"
+      redirect "/admin"
     end
     function_name do |name|
       "rodauth_password.#{name}"
@@ -38,7 +38,9 @@ class App < Roda
   plugin :sessions, secret: ENV.delete("SESSION_SECRET") || SecureRandom.base64(64)
   plugin :shared_vars
 
-  require_relative "cms/router"
+  %w[admin cms].each do |routing_module|
+    require_relative "#{routing_module}/router"
+  end
 
   def config = opts[:config]
 
@@ -50,20 +52,6 @@ class App < Roda
 
     r.get "health" do
       "OK"
-    end
-
-    r.on "admin" do
-      rodauth.require_authentication
-
-      if r.headers["HX-Request"]
-        r.hash_branches(:admin)
-
-        "admin"
-      else
-        account = Admin::Account.from_rodauth(rodauth.account!)
-
-        Admin::Layout.new(app: self, account: account, current_path: r.path).call
-      end
     end
 
     r.hash_branches

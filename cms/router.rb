@@ -10,6 +10,6 @@ class App
   hash_branch :admin, "cms" do |r|
     slices.each { r.route(it) }
 
-    "cms"
+    r.redirect "/admin"
   end
 end
