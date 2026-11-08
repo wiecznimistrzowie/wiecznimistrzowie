@@ -7,7 +7,7 @@ module CMS
 
       def view_template
         HtmxTitle { "Add locality" }
-        Form("/cms/localities/add", app: @app, form_data: @form_data, testid: "adding-locality") do |f|
+        Form("/admin/cms/localities/add", app: @app, form_data: @form_data, testid: "adding-locality") do |f|
           fieldset do
             legend { "Locality details" }
 

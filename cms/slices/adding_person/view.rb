@@ -7,7 +7,7 @@ module CMS
 
       def view_template
         HtmxTitle { "Add person" }
-        Form("/cms/people/add", app: @app, form_data: @form_data, testid: "adding-person") do |f|
+        Form("/admin/cms/people/add", app: @app, form_data: @form_data, testid: "adding-person") do |f|
           fieldset do
             legend { "Person details" }
 

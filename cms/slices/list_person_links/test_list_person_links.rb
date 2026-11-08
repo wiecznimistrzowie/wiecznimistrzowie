@@ -7,7 +7,7 @@ module CMS::ListPersonLinks
     def test_nothing_projected
       sign_in_admin
 
-      visit("/cms/people/#{SecureRandom.uuid_v7}/links")
+      visit("/admin/cms/people/#{SecureRandom.uuid_v7}/links")
 
       assert_equal 0, all("tbody tr").size
     end
@@ -27,7 +27,7 @@ module CMS::ListPersonLinks
         ]
       )
 
-      visit("/cms/people/#{person_id}/links")
+      visit("/admin/cms/people/#{person_id}/links")
 
       labels = page.all("[data-testid=link-label]").map(&:text)
       urls = page.all("[data-testid=link-url]").map(&:text)

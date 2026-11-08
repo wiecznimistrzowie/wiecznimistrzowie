@@ -30,10 +30,10 @@ module CMS
           end
         end
         section(id: "add-link") do
-          p(hx_get: "/cms/people/#{@person.person_id}/links/add", hx_trigger: "load", hx_target: "#add-link") {}
+          p(hx_get: "/admin/cms/people/#{@person.person_id}/links/add", hx_trigger: "load", hx_target: "#add-link") {}
         end
         section(id: "person-links") do
-          p(hx_get: "/cms/people/#{@person.person_id}/links", hx_trigger: "load", hx_target: "#person-links") { "Loading..." }
+          p(hx_get: "/admin/cms/people/#{@person.person_id}/links", hx_trigger: "load", hx_target: "#person-links") { "Loading..." }
         end
       end
     end

@@ -19,7 +19,7 @@ class App
         in Success[CMS::LocalityWasAdded]
           response.status = 202
           response["HX-Location"] = {
-            path: "/cms/localities/#{locality_id}",
+            path: "/admin/cms/localities/#{locality_id}",
             target: "main"
           }.to_json
         in Failure(:race_condition_detected)

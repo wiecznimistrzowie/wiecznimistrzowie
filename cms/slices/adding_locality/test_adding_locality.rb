@@ -7,7 +7,7 @@ module CMS::AddingLocality
     def test_success
       sign_in_admin
 
-      visit("/cms/localities/add")
+      visit("/admin/cms/localities/add")
 
       within("[data-testid=adding-locality]") do
         fill_in("name", with: "Kraków")
@@ -15,7 +15,7 @@ module CMS::AddingLocality
         click_on("Save")
       end
 
-      assert_current_path %r(/cms/localities/[0-9a-f-]{36})
+      assert_current_path %r(/admin/cms/localities/[0-9a-f-]{36})
     end
   end
 end

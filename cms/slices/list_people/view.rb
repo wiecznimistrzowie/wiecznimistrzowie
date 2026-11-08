@@ -8,7 +8,7 @@ module CMS
       def view_template
         HtmxTitle { "People" }
         h1 { "List of People" }
-        a(href: "/cms/people/add") { "Add New Person" }
+        a(href: "/admin/cms/people/add") { "Add New Person" }
         table(data_testid: "people-list") do
           thead do
             tr do
@@ -29,7 +29,7 @@ module CMS
                 td { person.date_of_death }
                 # td { person.created_at.localtime.strftime("%Y-%m-%d %H:%M:%S") }
                 td do
-                  a(href: "/cms/people/#{person.person_id}") { "Show" }
+                  a(href: "/admin/cms/people/#{person.person_id}") { "Show" }
                 end
               end
             end

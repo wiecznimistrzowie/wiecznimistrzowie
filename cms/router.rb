@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-Account = Data.define(:id, :email) do
-  def self.from_rodauth(account)
-    new(id: account[:id], email: account[:email])
-  end
-end
-
 class App
   slices = Dir["#{__dir__}/slices/**/endpoint.rb"].map { |file|
     require file
@@ -13,13 +7,11 @@ class App
     Pathname.new(file).dirname.basename.to_s
   }
 
-  hash_branch "cms" do |r|
-    rodauth.require_authentication
-
+  hash_branch :admin, "cms" do |r|
     if r.headers["HX-Request"]
       slices.each { r.route(it) }
 
-      "TODO"
+      "cms"
     else
       account = Account.from_rodauth(rodauth.account!)
 

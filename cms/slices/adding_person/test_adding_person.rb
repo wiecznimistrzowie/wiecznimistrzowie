@@ -7,7 +7,7 @@ module CMS::AddingPerson
     def test_success
       sign_in_admin
 
-      visit("/cms/people/add")
+      visit("/admin/cms/people/add")
 
       within("[data-testid=adding-person]") do
         fill_in("first_name", with: "Marian")
@@ -18,7 +18,7 @@ module CMS::AddingPerson
         click_on("Save")
       end
 
-      assert_current_path %r(/cms/people/[0-9a-f-]{36})
+      assert_current_path %r(/admin/cms/people/[0-9a-f-]{36})
     end
   end
 end

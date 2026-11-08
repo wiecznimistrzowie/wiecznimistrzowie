@@ -8,7 +8,7 @@ module CMS
       def view_template
         HtmxTitle { "Localities" }
         h1 { "List of Localities" }
-        a(href: "/cms/localities/add") { "Add New Locality" }
+        a(href: "/admin/cms/localities/add") { "Add New Locality" }
         table(data_testid: "localities-list") do
           thead do
             tr do
@@ -21,7 +21,7 @@ module CMS
               tr do
                 td(data_testid: "locality-name") { locality.name }
                 td do
-                  a(href: "/cms/localities/#{locality.locality_id}") { "Show" }
+                  a(href: "/admin/cms/localities/#{locality.locality_id}") { "Show" }
                 end
               end
             end

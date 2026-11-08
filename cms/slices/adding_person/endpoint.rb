@@ -22,7 +22,7 @@ class App
         in Success[CMS::PersonWasAdded]
           response.status = 202
           response["HX-Location"] = {
-            path: "/cms/people/#{person_id}",
+            path: "/admin/cms/people/#{person_id}",
             target: "main"
           }.to_json
         in Failure(:wrong_expected_version)

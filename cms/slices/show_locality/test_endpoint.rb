@@ -8,7 +8,7 @@ module CMS
       def test_not_found
         sign_in_admin
 
-        visit("/cms/localities/#{SecureRandom.uuid_v7}")
+        visit("/admin/cms/localities/#{SecureRandom.uuid_v7}")
 
         assert_text "Not found"
       end
@@ -30,7 +30,7 @@ module CMS
           ]
         )
 
-        visit("/cms/localities/#{locality_id}")
+        visit("/admin/cms/localities/#{locality_id}")
 
         assert_text "Kraków"
         assert_text locality_id

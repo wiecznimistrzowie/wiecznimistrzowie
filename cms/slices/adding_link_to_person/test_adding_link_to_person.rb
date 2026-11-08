@@ -25,7 +25,7 @@ module CMS::AddingLinkToPerson
         ]
       )
 
-      visit("/cms/people/#{person_id}/links/add")
+      visit("/admin/cms/people/#{person_id}/links/add")
 
       within("[data-testid=adding-link-to-person]") do
         fill_in("url", with: "https://pl.wikipedia.org/wiki/Adam_Wojcik")
@@ -34,7 +34,7 @@ module CMS::AddingLinkToPerson
         click_on("Save")
       end
 
-      assert_current_path "/cms/people/#{person_id}"
+      assert_current_path "/admin/cms/people/#{person_id}"
     end
   end
 end

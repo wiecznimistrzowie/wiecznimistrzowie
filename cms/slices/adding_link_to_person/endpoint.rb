@@ -19,7 +19,7 @@ class App
           # Success[] means nothing was appended (the link is already there), which is fine.
           response.status = 202
           response["HX-Location"] = {
-            path: "/cms/people/#{person_id}",
+            path: "/admin/cms/people/#{person_id}",
             target: "main"
           }.to_json
         in Failure(:race_condition_detected)

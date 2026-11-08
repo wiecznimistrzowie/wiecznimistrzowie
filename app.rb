@@ -3,6 +3,12 @@
 require_relative "boot"
 require "forwardable"
 
+Account = Data.define(:id, :email) do
+  def self.from_rodauth(account)
+    new(id: account[:id], email: account[:email])
+  end
+end
+
 class App < Roda
   extend Forwardable
   include Dry::Monads[:result]
@@ -32,7 +38,7 @@ class App < Roda
     password_hash_table Sequel[:rodauth_password][:account_password_hashes]
     login_label "Email"
     login_param "email"
-    default_redirect "/cms"
+    default_redirect "/admin"
   end
   plugin :route_csrf
   plugin :sessions, secret: ENV.delete("SESSION_SECRET") || SecureRandom.base64(64)
@@ -50,6 +56,14 @@ class App < Roda
 
     r.get "health" do
       "OK"
+    end
+
+    r.on "admin" do
+      rodauth.require_authentication
+
+      r.hash_branches(:admin)
+
+      "admin"
     end
 
     r.hash_branches

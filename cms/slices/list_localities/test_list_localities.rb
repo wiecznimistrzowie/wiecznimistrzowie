@@ -7,7 +7,7 @@ module CMS::ListLocalities
     def test_nothing_projected
       sign_in_admin
 
-      visit("/cms/localities")
+      visit("/admin/cms/localities")
 
       assert_equal 0, all("tbody tr").size
     end
@@ -39,7 +39,7 @@ module CMS::ListLocalities
         ]
       )
 
-      visit("/cms/localities")
+      visit("/admin/cms/localities")
 
       names = page.all("[data-testid=locality-name]").map(&:text)
 

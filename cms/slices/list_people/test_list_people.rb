@@ -7,7 +7,7 @@ module CMS::AddingPerson
     def test_nothing_projected
       sign_in_admin
 
-      visit("/cms/people")
+      visit("/admin/cms/people")
 
       assert_equal 0, all("tbody tr").size
     end
@@ -45,7 +45,7 @@ module CMS::AddingPerson
         ]
       )
 
-      visit("/cms/people")
+      visit("/admin/cms/people")
 
       last_names = page.all("[data-testid=person-last-name]").map(&:text)
 
